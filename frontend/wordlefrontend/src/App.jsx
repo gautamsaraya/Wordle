@@ -50,11 +50,11 @@ function App() {
       console.log('Response:', response); // Log the entire response object
       
       if (response && response.data) {
-        console.log('Token:', response.data.token);
-        console.log('User:', response.data.user);
-
-        // Navigate to the Game page with the response data
-        navigate('/Game', { state: response.data.user });
+        // Store user data in localStorage or sessionStorage
+        localStorage.setItem('userData', JSON.stringify(response.data.user));
+  
+        // Redirect to the game page
+        window.location.href = '/game';
       } else {
         setLoginError('Unexpected response structure. Please try again.');
       }
