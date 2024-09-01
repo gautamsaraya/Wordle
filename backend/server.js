@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth');
 const wordRoutes = require('./routes/guess');
 //const {verifyToken} = require('./middlewares/auth'); // Middleware for JWT verification
-//const cors = require('cors');
+const cors = require('cors');
 
 const app = express();
 
@@ -20,11 +20,11 @@ app.use(cookieParser());
 // Middleware for parsing URL-encoded form data
 app.use(express.urlencoded({extended: true}));
 
-//app.use(cors());
+app.use(cors());
 
 // Middleware to set response headers for CORS
 
-/*
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -35,12 +35,10 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   next();
 });
-*/
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/word', wordRoutes);
-
-
 
 
 // Error handling middleware

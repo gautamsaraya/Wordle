@@ -46,6 +46,9 @@ router.post('/register', async (req, res) => {
       maxAge: 10 * 12 * 30 * 24 * 3600000, // Cookie expiration in milliseconds (1 hour)
     });
 
+    // console.log(newUser);
+    // console.log(token);
+
     res.status(201).json({token, user: newUser});
   } catch (error) {
     res.status(500).json({message: error.message});
@@ -72,6 +75,9 @@ router.post('/login', async (req, res) => {
       secure: process.env.NODE_ENV === 'production', // Use 'secure' cookies only in production
       maxAge: 10 * 12 * 30 * 24 * 3600000, // Cookie expiration in milliseconds (1 hour)
     });
+
+    console.log(user);
+    console.log(token);
 
     res.json({token, user});
   } catch (error) {
