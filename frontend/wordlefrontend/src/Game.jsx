@@ -1,10 +1,7 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 
 function Game() {
-  const location = useLocation();
-  const userData = location.state; // This is where you'll get the data passed from the login
-
+  const userData = JSON.parse(localStorage.getItem('userData'));
   return (
     <div className="game-container">
       <h1>Welcome to the Game, {userData.username}!</h1>
