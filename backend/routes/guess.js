@@ -49,4 +49,36 @@ router.put('/update', async (req, res) => {
     }
 });
 
+
+router.post('/check', async (req, res) => {
+  const { word } = req.body;
+
+  if (!word || word.length !== 5) {
+    return res.status(400).json({ msg: 'Invalid word length. Must be 5 letters.' });
+  }
+
+  try {
+    const foundWord = await Word.findOne({ word_content: word.toLowerCase() });
+
+    if (foundWord) {
+      return res.json({ exists: true });
+    } else {
+      return res.json({ exists: false });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/random', async (req, res) => {
+  try {
+      const count = await Word.countDocuments();
+      const random = Math.floor(Math.random() * count);
+      const word = await Word.findOne().skip(random);
+      res.json({ word: word.word_content });
+  } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch random word' });
+  }
+});
 module.exports = router;
