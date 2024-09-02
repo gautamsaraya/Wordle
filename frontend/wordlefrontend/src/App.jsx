@@ -43,25 +43,30 @@ function App() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login form submitted', loginData); // Debug log
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', loginData);
-      
-      console.log('Response:', response); // Log the entire response object
-      
-      if (response && response.data) {
-        // Store user data in localStorage or sessionStorage
-        localStorage.setItem('userData', JSON.stringify(response.data.user));
-  
-        // Redirect to the game page
-        window.location.href = '/game';
-      } else {
-        setLoginError('Unexpected response structure. Please try again.');
-      }
+        const response = await axios.post('http://localhost:3000/api/auth/login', loginData);
+        
+        if (response && response.data) {
+            // Store user data
+            localStorage.setItem('userData', JSON.stringify(response.data.user));
+
+            // Fetch a random word
+            const wordResponse = await axios.get('http://localhost:3000/api/word/random');
+            const randomWord = wordResponse.data.word;
+            
+            // Store the word in localStorage
+            localStorage.setItem('randomWord', randomWord);
+
+            // Redirect to the game page
+            window.location.href = '/game';
+        } else {
+            setLoginError('Unexpected response structure. Please try again.');
+        }
     } catch (error) {
-      setLoginError(error.response.data.message);
+        setLoginError(error.response?.data?.message || 'Login failed. Please try again.');
     }
-  };
+};
+
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
